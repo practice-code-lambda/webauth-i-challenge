@@ -11,22 +11,22 @@ server.use(helmet())
 server.use(cors())
 server.use(express.json())
 
-const sessionConfig = {
-    name: "chocochip",
-    secret: process.env.Secret || 'keep it secret, keep it safe',
-    cookie: {
-        maxAge: 1000 * 60 * 60,
-        secure: false, // true means only send over https
-        httpOnly: true,
+// const sessionConfig = {
+//     name: "chocochip",
+//     secret: process.env.Secret || 'keep it secret, keep it safe',
+//     cookie: {
+//         maxAge: 1000 * 60 * 60,
+//         secure: false, // true means only send over https
+//         httpOnly: true,
 
-    },
-    resave: false,
-    saveUninitialized: true,
-}
+//     },
+//     resave: false,
+//     saveUninitialized: true,
+// }
 
 
 
-server.use(session(sessionConfig))
+// server.use(session(sessionConfig))
 
 
 server.use('/api', userRouter)
