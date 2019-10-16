@@ -2,24 +2,18 @@
 
 module.exports = {
 
-
   development: {
     client: 'sqlite3',
+    useNullAsDefault: true,
     connection: {
       filename: './dev.sqlite3'
-    }
-  },
-
-  staging: {
-    client: 'postgresql',
-    connection: {
-      database: 'my_db',
-      user: 'username',
-      password: 'password'
     },
+
+
     pool: {
-      min: 2,
-      max: 10
+      afterCreate: (conn, done) => {
+        conn.run('PRAGAME foreig_keys = ON', done)
+      }
     },
     migrations: {
       directory: "./data/migrations"
@@ -30,21 +24,16 @@ module.exports = {
   },
   production: {
     client: 'sqlite3',
+    useNullAsDefault: true,
     connection: {
       filename: './dev.sqlite3'
-    }
-  },
-
-  staging: {
-    client: 'postgresql',
-    connection: {
-      database: 'my_db',
-      user: 'username',
-      password: 'password'
     },
+
+
     pool: {
-      min: 2,
-      max: 10
+      afterCreate: (conn, done) => {
+        conn.run('PRAGAME foreig_keys = ON', done)
+      }
     },
     migrations: {
       directory: "./data/migrations"
