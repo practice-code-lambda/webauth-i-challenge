@@ -26,12 +26,10 @@ module.exports = {
     }
   },
   production: {
-    client: 'sqlite3',
+    client: 'pg',
     connection: {
-      filename: './dev.sqlite3'
+      filename: process.env.DATABASE_URL,
     },
-
-
     pool: {
       min: 2,
       max: 10
