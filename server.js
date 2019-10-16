@@ -1,15 +1,26 @@
 const express = require('express')
 const helmet = require('helmet')
-const cors = require('cors')
+// const cors = require('cors')
 const userRouter = require('./routers/userRouter')
-const session = require('express-session')
+// const session = require('express-session')
 
 server = express()
 
-
+console.log('enviornment:', process.env.NODE_ENV)
 server.use(helmet())
-server.use(cors())
+// server.use(cors())
 server.use(express.json())
+
+
+server.use('/api', userRouter)
+
+module.exports = server;
+
+
+
+
+
+
 
 // const sessionConfig = {
 //     name: "chocochip",
@@ -29,6 +40,3 @@ server.use(express.json())
 // server.use(session(sessionConfig))
 
 
-server.use('/api', userRouter)
-
-module.exports = server;
