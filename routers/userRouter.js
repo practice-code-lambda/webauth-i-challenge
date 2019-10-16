@@ -3,13 +3,14 @@ const db = require('../user-model.js')
 const bcrypt = require('bcrypt')
 const restricted = require('./restricted-middleware')
 const jwt = require('jsonwebtoken')
+const secrets = require('../secrets/secrets')
 
 router = express.Router()
 
 router.get('/', restricted, (req, res) => {
     db.find()
         .then(user => {
-            res.json(user)
+            res.status(200).json({ user: user, loggedInUser: req.user.username })
         })
         .catch(err => {
             res.status(500).json({
@@ -41,20 +42,29 @@ router.post('/login', (req, res) => {
     db.findBy({ user })
         .first()
         .then(user => {
-            const token = generateToken(user)
             if (user && bcrypt.compareSync(password, user.password)) {
-                res.status(200).json({ message: "welcome" })
+                const token = generateToken(user)
+                res.status(200).json({ token })
             } else {
                 res.status(401).json({ message: "you shall not pass!" })
             }
         })
         .catch(error => {
-            res.status(500).json({ error: error })
+            res.status(500).json({ message: 'no credentials provided', error: error })
         })
 })
 
-function generateToken() {
-    return jwt.sign(payload, secret, options)
+function generateToken(user) {
+    const payload = {
+        username: user.username
+    }
+    // const secret = "keep it secret, keep it safe!"
+    const options = {
+        expiresIn: '1d'
+    }
+
+    return jwt.sign(payload, secrets.jwtSecret, options)
+
 }
 
 //create middleware

@@ -1,29 +1,34 @@
-const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const secrets = require('../secrets/secrets')
 
 module.exports = function (req, res, next) {
+    const token = req.headers.authorization
+    if (token) {
+        jwt.verify(token, secrets.jwtSecret, (err, decodedToken) => {
+            if (err) {
+                res.status(401).json({ message: "invalid credentials" })
+            } else {
+                // can return user
+                req.user = { username: decodedToken.username }
+                next()
+            }
+        })
 
-    if (req.session && req.session.user) {
-        next()
     } else {
-        res.status(401).json({ message: 'you shall not pass!' })
+        res.status(400).json({ message: 'no credentials' })
     }
-
-
 }
 
-// module.exports = function (req, res, next) {
-//     const { user, password } = req.headers
 
-//     db.findBy({ user }) //<-------------------- what is dis
-//         .first()
-//         .then(user => {
-//             if (user && bcrypt.compareSync(password, user.password)) {
-//                 next()
-//             } else {
-//                 res.status(401).json({ message: "you shall not pass!" })
-//             }
-//         })
-//         .catch(error => {
-//             res.status(500).json({ error: error })
-//         })
+
+
+
+// for cookies
+// module.exports = function (req, res, next) {
+
+//     if (req.session && req.session.user) {
+//         next()
+//     } else {
+//         res.status(401).json({ message: 'you shall not pass!' })
+//     }
 // }
