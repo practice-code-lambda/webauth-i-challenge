@@ -7,7 +7,7 @@ const secrets = require('../secrets/secrets')
 
 router = express.Router()
 
-router.get('/', restricted, (req, res) => {
+router.get('/', (req, res) => {
     db.find()
         .then(user => {
             res.status(200).json({ user: user, loggedInUser: req.user.username })
