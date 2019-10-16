@@ -19,10 +19,10 @@ module.exports = {
 
     },
     migrations: {
-      directory: "./data/migrations"
+      directory: "./migrations"
     },
     seeds: {
-      directory: "./data/seeds"
+      directory: "./seeds"
     }
   },
   production: {
@@ -35,10 +35,10 @@ module.exports = {
       max: 10
     },
     migrations: {
-      directory: "./data/migrations"
+      directory: "./migrations"
     },
     seeds: {
-      directory: "./data/seeds"
+      directory: "./seeds"
     }
   },
 }
