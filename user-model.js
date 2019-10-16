@@ -8,6 +8,7 @@ module.exports = {
 }
 
 function find() {
+    console.log('here')
     return db('users')
 }
 function findBy(username) {

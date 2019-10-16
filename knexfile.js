@@ -4,16 +4,19 @@ module.exports = {
 
   development: {
     client: 'sqlite3',
-    useNullAsDefault: true,
     connection: {
       filename: './dev.sqlite3'
     },
 
 
     pool: {
+      min: 2,
+      max: 10,
       afterCreate: (conn, done) => {
-        conn.run('PRAGAME foreig_keys = ON', done)
-      }
+        // runs after a connection is made to the sqlite engine
+        conn.run('PRAGMA foreign_keys = ON', done); // turn on FK enforcement
+      },
+
     },
     migrations: {
       directory: "./data/migrations"
@@ -24,16 +27,14 @@ module.exports = {
   },
   production: {
     client: 'sqlite3',
-    useNullAsDefault: true,
     connection: {
       filename: './dev.sqlite3'
     },
 
 
     pool: {
-      afterCreate: (conn, done) => {
-        conn.run('PRAGAME foreig_keys = ON', done)
-      }
+      min: 2,
+      max: 10
     },
     migrations: {
       directory: "./data/migrations"

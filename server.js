@@ -6,7 +6,7 @@ const userRouter = require('./routers/userRouter')
 
 server = express()
 
-console.log('enviornment:', process.env.NODE_ENV)
+
 server.use(helmet())
 // server.use(cors())
 server.use(express.json())

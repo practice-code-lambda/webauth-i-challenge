@@ -7,7 +7,8 @@ const secrets = require('../secrets/secrets')
 
 router = express.Router()
 
-router.get('/', (req, res) => {
+router.get('/', restricted, (req, res) => {
+
     db.find()
         .then(user => {
             res.status(200).json({ user: user, loggedInUser: req.user.username })
@@ -42,6 +43,7 @@ router.post('/login', (req, res) => {
     db.findBy({ user })
         .first()
         .then(user => {
+
             if (user && bcrypt.compareSync(password, user.password)) {
                 const token = generateToken(user)
                 res.status(200).json({ token })
