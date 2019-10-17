@@ -1,11 +1,9 @@
 const express = require('express')
 const helmet = require('helmet')
 const cors = require('cors')
-const userRouter = require('./routers/userRouter')
-// const session = require('express-session')
+const userRouter = require('./routers/users/userRouter')
 
 server = express()
-
 
 server.use(helmet())
 server.use(cors())
