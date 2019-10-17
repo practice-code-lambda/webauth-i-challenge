@@ -1,5 +1,3 @@
-// Update with your config settings.
-require('dotenv').config()
 module.exports = {
 
   development: {
@@ -7,8 +5,6 @@ module.exports = {
     connection: {
       filename: './dev.sqlite3'
     },
-
-
     pool: {
       min: 2,
       max: 10,
