@@ -35,6 +35,8 @@ router.post('/', restricted, (req, res) => {
         })
 })
 
+//deletes existing plants
+
 router.delete('/', restricted, (req, res) => {
     const deletedPlant = req.body.id
     db.remove(deletedPlant)
@@ -49,16 +51,28 @@ router.delete('/', restricted, (req, res) => {
         })
 })
 
+//updates an existing plant
 
+router.put('/', restricted, (req, res) => {
+    const id = req.body.id
+    const updatedPlant = {
+        nickname: req.body.nickname,
+        species: req.body.species,
+        h2oFrequency: req.body.h2oFrequency,
+        user_id: req.body.user_id
 
+    }
 
-// delete plant (needs plant id)
-
-
-//get plants by user
-
-
-//edit plant (needs id)
-
+    db.update(updatedPlant, id)
+        .then(plants => {
+            res.status(200).json(plants)
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err,
+                message: "plant could not be updated"
+            })
+        })
+})
 
 module.exports = router

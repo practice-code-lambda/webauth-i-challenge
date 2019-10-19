@@ -23,8 +23,6 @@ function findPlantsByUser(id) {
 }
 
 
-// not functional below this line ------------------------------
-
 
 function findBy(nickname) {
     return db('plants')
@@ -49,7 +47,7 @@ function remove(id) {
 
 function update(changes, id) {
     return (
-        db('users')
+        db('plants')
             .where('plants.id', id)
             .update(changes)
     )
