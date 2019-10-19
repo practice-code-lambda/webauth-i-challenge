@@ -3,7 +3,7 @@ module.exports = {
   development: {
     client: 'sqlite3',
     connection: {
-      filename: '../data/dev.sqlite3'
+      filename: './data/dev.sqlite3'
     },
     pool: {
       min: 2,
@@ -15,10 +15,10 @@ module.exports = {
 
     },
     migrations: {
-      directory: "./migrations"
+      directory: "./data/migrations"
     },
     seeds: {
-      directory: "./seeds"
+      directory: "./data/seeds"
     }
   },
   production: {

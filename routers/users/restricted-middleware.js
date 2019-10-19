@@ -3,13 +3,17 @@ const secrets = require('../../secrets/secrets')
 
 module.exports = function (req, res, next) {
     const token = req.headers.authorization
+    console.log('here')
     if (token) {
-        jwt.verify(token, secrets.jwtSecret, (err, decodedToken) => {
+        jwt.verify(token, secrets.jwtSecret, (err, decoded) => {
             if (err) {
                 res.status(401).json({ message: "invalid credentials" })
             } else {
                 // can return user
-                req.user = { username: decodedToken.username }
+                req.user = { id: decoded.id, username: decoded.username }
+
+
+                //this is how you link tables in every request
                 next()
             }
         })

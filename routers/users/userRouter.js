@@ -8,8 +8,9 @@ const secrets = require('../../secrets/secrets')
 router = express.Router()
 
 router.get('/', restricted, (req, res) => {
-
+    console.log(req.user)
     db.find()
+
         .then(user => {
             res.status(200).json({ user: user, loggedInUser: req.user.username })
         })
@@ -23,11 +24,11 @@ router.get('/', restricted, (req, res) => {
 
 router.post('/register', (req, res) => {
     let user = req.body
-    console.log(user)
+    console.log('user', user)
     const hash = bcrypt.hashSync(user.password, 8)
 
     user.password = hash
-
+    console.log('user', user)
     db.add(user)
         .then(saved => {
             res.status(201).json(saved)
@@ -38,9 +39,9 @@ router.post('/register', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-    let { user, password } = req.body
-
-    db.findBy({ user })
+    let { username, password } = req.body
+    console.log("reqbody", req.body)
+    db.findBy({ username })
         .first()
         .then(user => {
 
@@ -56,11 +57,17 @@ router.post('/login', (req, res) => {
         })
 })
 
+
+
+
+
+
 function generateToken(user) {
     const payload = {
-        username: user.username
+        username: user.user,
+        id: user.id
     }
-    // const secret = "keep it secret, keep it safe!"
+
     const options = {
         expiresIn: '1d'
     }
@@ -69,24 +76,6 @@ function generateToken(user) {
 
 }
 
-//create middleware
-// function restricted(req, res, next) {
-//     const { user, password } = req.headers
 
-//     db.findBy({ user })
-//         .first()
-//         .then(user => {
-//             if (user && bcrypt.compareSync(password, user.password)) {
-//                 next()
-//             } else {
-//                 res.status(401).json({ message: "you shall not pass!" })
-//             }
-//         })
-//         .catch(error => {
-//             res.status(500).json({ error: error })
-//         })
-
-
-// }
 
 module.exports = router
