@@ -9,7 +9,9 @@ module.exports = function (req, res, next) {
                 res.status(401).json({ message: "invalid credentials" })
             } else {
                 // can return user
-                req.user = { id: decoded.id, username: decoded.username }
+
+                req.user = { id: decoded.id, username: decoded.user }
+                console.log("req.user in middleware", req.user)
                 //this is how you link tables in every request
                 next()
             }

@@ -33,7 +33,18 @@ function findBy(nickname) {
 }
 
 function add(plant) {
+
     return db('plants').insert(plant)
+}
+
+
+
+function remove(id) {
+    return (
+        db('plants')
+            .where('plants.id', id)
+            .del()
+    )
 }
 
 function update(changes, id) {
@@ -41,13 +52,5 @@ function update(changes, id) {
         db('users')
             .where('plants.id', id)
             .update(changes)
-    )
-}
-
-function remove(id) {
-    return (
-        db('plants')
-            .where('plants.id', id)
-            .del()
     )
 }
