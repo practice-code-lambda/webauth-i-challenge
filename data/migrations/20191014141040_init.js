@@ -4,7 +4,7 @@ exports.up = function (knex) {
         tbl.increments()
         tbl.string("username", 255).notNullable().unique()
         tbl.string("password", 255).notNullable().unique()
-
+        tbl.string("phoneNumber", 255)
 
     })
         .createTable("plants", tbl => {
@@ -17,12 +17,15 @@ exports.up = function (knex) {
                 .notNullable()
                 .references('id')
                 .inTable('users')
-
+                .onUpdate('CASCADE')
+                .onDelete('CASCADE');
         })
 }
 exports.down = function (knex) {
     return knex.schema
+
         .dropTableIfExists("plants")
         .dropTableIfExists("users")
+
 
 }

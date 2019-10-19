@@ -10,11 +10,9 @@ module.exports = {
 }
 
 function find() {
-    console.log('here')
     return db('users')
 }
 function findBy(username) {
-    console.log('model', username.username)
     return db('users')
         .where('users.username', username.username)
 

@@ -8,7 +8,7 @@ const secrets = require('../../secrets/secrets')
 router = express.Router()
 
 router.get('/', restricted, (req, res) => {
-    console.log(req.user)
+
     db.find()
 
         .then(user => {
@@ -24,7 +24,6 @@ router.get('/', restricted, (req, res) => {
 
 router.post('/register', (req, res) => {
     let user = req.body
-    console.log('user', user)
     const hash = bcrypt.hashSync(user.password, 8)
 
     user.password = hash
@@ -40,7 +39,6 @@ router.post('/register', (req, res) => {
 
 router.post('/login', (req, res) => {
     let { username, password } = req.body
-    console.log("reqbody", req.body)
     db.findBy({ username })
         .first()
         .then(user => {
