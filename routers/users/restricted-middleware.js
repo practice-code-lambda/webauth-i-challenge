@@ -10,8 +10,9 @@ module.exports = function (req, res, next) {
             } else {
                 // can return user
 
-                req.user = { id: decoded.id, username: decoded.user }
-                console.log("req.user in middleware", req.user)
+                req.user = { username: decoded.username, id: decoded.id }
+
+                console.log("req.user in middleware", decoded)
                 //this is how you link tables in every request
                 next()
             }

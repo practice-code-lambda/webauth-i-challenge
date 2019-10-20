@@ -10,7 +10,6 @@ router = express.Router()
 router.get('/', restricted, (req, res) => {
 
     db.find()
-
         .then(user => {
             res.status(200).json({ user: user, loggedInUser: req.user.username })
         })
@@ -55,14 +54,47 @@ router.post('/login', (req, res) => {
         })
 })
 
+router.get('/single_user', restricted, (req, res) => {
+    const username = req.user.username
+    db.findBy({ username })
+        .first()
+        .then(user => {
+            res.status(200).json(user)
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err,
+                message: "could not find user"
+            })
+        })
+})
+
+router.put('/', restricted, (req, res) => {
+    const username = req.user.username
+    const user = db.findBy({ username })
 
 
 
+    const updatedUser = {
+        username: user.username,
+        password: user.password,
+        phoneNumber: user.phoneNumber,
+    }
+    if (req.body.password) {
+        updatedUser.username = req.body.password
+    }
+    if (req.body.phoneNumber) {
+        updatedUser.phoneNumber
+    }
+
+    db.update()
+        .then(updatedUser)
+})
 
 
 function generateToken(user) {
     const payload = {
-        username: user.user,
+        username: user.username,
         id: user.id
     }
 
