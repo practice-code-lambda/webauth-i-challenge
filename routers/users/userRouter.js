@@ -7,6 +7,8 @@ const secrets = require('../../secrets/secrets')
 
 router = express.Router()
 
+//gets all users
+
 router.get('/', restricted, (req, res) => {
 
     db.find()
@@ -20,6 +22,8 @@ router.get('/', restricted, (req, res) => {
             })
         })
 })
+
+//registers a new user
 
 router.post('/register', (req, res) => {
     let user = req.body
@@ -35,7 +39,7 @@ router.post('/register', (req, res) => {
             res.status(500).json(err)
         })
 })
-
+// logs a registered user in
 router.post('/login', (req, res) => {
     let { username, password } = req.body
     db.findBy({ username })
@@ -54,6 +58,7 @@ router.post('/login', (req, res) => {
         })
 })
 
+// captures a single logged in user
 router.get('/single_user', restricted, (req, res) => {
     const username = req.user.username
     db.findBy({ username })
@@ -69,26 +74,23 @@ router.get('/single_user', restricted, (req, res) => {
         })
 })
 
+// updates currently logged in user
 router.put('/', restricted, (req, res) => {
-    const username = req.user.username
-    const user = db.findBy({ username })
+    const updatedUser = req.body
+    const hash = bcrypt.hashSync(req.body.password, 8)
 
-
-
-    const updatedUser = {
-        username: user.username,
-        password: user.password,
-        phoneNumber: user.phoneNumber,
-    }
-    if (req.body.password) {
-        updatedUser.username = req.body.password
-    }
-    if (req.body.phoneNumber) {
-        updatedUser.phoneNumber
-    }
-
-    db.update()
-        .then(updatedUser)
+    updatedUser.password = hash
+    const id = req.user.id
+    db.update(updatedUser, id)
+        .then(updatedUser => {
+            res.status(200).json(updatedUser)
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err,
+                message: "could not update user"
+            })
+        })
 })
 
 
