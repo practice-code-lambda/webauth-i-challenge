@@ -41,7 +41,9 @@ router.delete('/', restricted, (req, res) => {
     const deletedPlant = req.body.id
     db.remove(deletedPlant)
         .then(plants => {
-            res.status(204).json(req.body.id)
+            res.status(204).json({
+                message: "yee plant hath been deleted Tyler"
+            })
         })
         .catch(err => {
             res.status(500).json({
