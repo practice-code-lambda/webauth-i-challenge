@@ -28,13 +28,19 @@ router.get('/', restricted, (req, res) => {
 router.post('/register', (req, res) => {
     let user = req.body
     const hash = bcrypt.hashSync(user.password, 8)
-
+    const username = user.username
     user.password = hash
     console.log('user', user)
     db.add(user)
         .then(saved => {
-            res.status(201).json(saved)
+            // res.status(201).json(saved)
+            db.findBy({ username })
+                .first()
+                .then(user => {
+                    res.status(200).json(user)
+                })
         })
+
         .catch(err => {
             res.status(500).json(err)
         })
@@ -64,7 +70,7 @@ router.get('/single_user', restricted, (req, res) => {
     db.findBy({ username })
         .first()
         .then(user => {
-            res.status(200).json({ userID: user.id })
+            res.status(200).json(user)
         })
         .catch(err => {
             res.status(500).json({
