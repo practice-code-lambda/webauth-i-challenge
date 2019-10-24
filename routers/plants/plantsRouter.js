@@ -66,6 +66,7 @@ router.put('/', restricted, (req, res) => {
     }
 
     db.update(updatedPlant, id)
+        .returning('id')
         .then(plants => {
             res.status(200).json(plants)
         })

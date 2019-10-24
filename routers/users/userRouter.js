@@ -64,7 +64,7 @@ router.get('/single_user', restricted, (req, res) => {
     db.findBy({ username })
         .first()
         .then(user => {
-            res.status(200).json(user)
+            res.status(200).json({ userID: user.id })
         })
         .catch(err => {
             res.status(500).json({
