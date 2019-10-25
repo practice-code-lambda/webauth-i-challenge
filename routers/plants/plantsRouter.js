@@ -52,6 +52,21 @@ router.delete('/', restricted, (req, res) => {
             })
         })
 })
+router.delete('/:id', restricted, (req, res) => {
+    const deletedPlant = req.params.id
+    db.remove(deletedPlant)
+        .then(plants => {
+            res.json({
+                message: "yee plant hath been deleted Tyler"
+            })
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err,
+                message: "plant could not be deleted"
+            })
+        })
+})
 
 //updates an existing plant
 
@@ -66,7 +81,7 @@ router.put('/', restricted, (req, res) => {
     }
 
     db.update(updatedPlant, id)
-        .returning('id')
+
         .then(plants => {
             res.status(200).json(plants)
         })
