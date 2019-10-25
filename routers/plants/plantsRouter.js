@@ -98,6 +98,7 @@ router.put('/', restricted, (req, res) => {
 router.put('/:id', restricted, (req, res) => {
     const id = req.params.id
     const updatedPlant = {
+        id: req.params.id,
         nickname: req.body.nickname,
         species: req.body.species,
         h2oFrequency: req.body.h2oFrequency,
