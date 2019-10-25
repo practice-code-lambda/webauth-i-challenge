@@ -105,7 +105,7 @@ router.put('/:id', restricted, (req, res) => {
         user_id: req.body.user_id
 
     }
-
+    console.log(updatedPlant)
     db.update(updatedPlant, id)
 
         .then(plants => {
