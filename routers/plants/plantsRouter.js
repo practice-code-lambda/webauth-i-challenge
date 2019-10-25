@@ -52,6 +52,8 @@ router.delete('/', restricted, (req, res) => {
             })
         })
 })
+
+//adds delete route using params for web
 router.delete('/:id', restricted, (req, res) => {
     const deletedPlant = req.params.id
     db.remove(deletedPlant)
@@ -72,6 +74,29 @@ router.delete('/:id', restricted, (req, res) => {
 
 router.put('/', restricted, (req, res) => {
     const id = req.body.id
+    const updatedPlant = {
+        nickname: req.body.nickname,
+        species: req.body.species,
+        h2oFrequency: req.body.h2oFrequency,
+        user_id: req.body.user_id
+
+    }
+
+    db.update(updatedPlant, id)
+
+        .then(plants => {
+            res.status(200).json(plants)
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err,
+                message: "plant could not be updated"
+            })
+        })
+})
+// adds put using params for web
+router.put('/:id', restricted, (req, res) => {
+    const id = req.params.id
     const updatedPlant = {
         nickname: req.body.nickname,
         species: req.body.species,
